@@ -316,6 +316,7 @@ def train_student_classification_model(
         for image, label, clip_image_embeddings in tqdm.tqdm(iter(train_loader)):
             with torch.no_grad():
                 image = image.cuda()
+                image = image.float()
                 label = label.cuda()
                 clip_image_embeddings = clip_image_embeddings.cuda().detach()
 
@@ -348,6 +349,7 @@ def train_student_classification_model(
         for image, label, clip_image_embeddings in tqdm.tqdm(iter(test_loader)):
             with torch.no_grad():
                 image = image.cuda()
+                image = image.float()
                 label = label.cuda()
                 output_logits = model(image)
 
@@ -641,15 +643,16 @@ def train_model_from_scratch(
         for image, label, _ in tqdm.tqdm(iter(train_loader)):
             with torch.no_grad():
                 image = image.cuda()
+                image = image.float()
                 label = label.cuda()
 
             optimizer.zero_grad()
+
             output_logits = model(image)
 
             output_logprob = F.log_softmax(output_logits, dim=-1)
 
             loss = F.nll_loss(output_logprob, label)
-
             loss.backward()
             optimizer.step()
 
@@ -663,6 +666,7 @@ def train_model_from_scratch(
         for image, label, _ in tqdm.tqdm(iter(test_loader)):
             with torch.no_grad():
                 image = image.cuda()
+                image = image.float()
                 label = label.cuda()
                 output_logits = model(image)
 
