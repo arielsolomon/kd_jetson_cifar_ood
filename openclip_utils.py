@@ -22,7 +22,7 @@ import glob
 import numpy as np
 import torch.nn.functional as F
 import torch.utils.data
-import PIL.Image
+from PIL import Image
 from torch.utils.tensorboard import SummaryWriter
 
 
@@ -121,7 +121,9 @@ def precompute_clip_image_embeddings(output_dir, dataset, overwrite=False):
 
         if os.path.exists(output_path) and (not overwrite):
             continue
-
+        n_channels = 3
+        converted_data = np.uint8(image)
+        image = Image.fromarray(converted_data, mode="L" if n_channels == 1 else "RGB")
         input_tensor = preprocess(image).unsqueeze(0)
 
         embedding = model.encode_image(input_tensor)

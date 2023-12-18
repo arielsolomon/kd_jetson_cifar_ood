@@ -1,4 +1,4 @@
-from stl10_utils import (
+from cifar10_c_unlabled_utils  import (
     precompute_clip_stl10_train_image_embeddings,
     precompute_clip_stl10_unlabeled_image_embeddings,
     precompute_clip_stl10_test_image_embeddings,
